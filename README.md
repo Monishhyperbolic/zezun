@@ -10,3 +10,7 @@ In the Vercel project settings, add:
 - `OPENAI_MODEL` — optional model override; defaults to `gpt-4o-mini`
 
 Redeploy after saving environment variables. For local Vercel development, put the same values in an untracked `.env.local` file.
+
+## Catalog and mobile performance
+
+The catalog contains 30 or more products in each Essential, Signature and Luxe range, including 30 Gift Hampers items. The shop initially renders 12 matching cards and loads more on demand, while product images use lazy loading and async decoding to keep mobile browsing responsive.

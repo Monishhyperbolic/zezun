@@ -13,6 +13,49 @@ const TGC = (() => {
     {id:'leather-travel-kit',name:'Leather Travel Companion',price:2799,range:'Luxe',emoji:'🧳',image:'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=900&q=80',description:'A refined travel organiser made for weekends away and everyday adventures.',material:'Vegetable-tanned leather.',includes:'Travel organiser with passport and card pockets.',packaging:'Dust bag and premium box.',stock:9,collections:['Heritage','Unique Finds'],occasions:['Birthday','Anniversary','Wedding','Appreciation & Thank You'],recipients:['Partner','Parents','Friends','Clients','Someone special'],styles:['Traditional & Heritage','Personal & Meaningful','Unique & Unusual'],tags:['leather','travel','organiser','premium']},
     {id:'wellness-box',name:'Evening Ritual Wellness Box',price:2199,range:'Luxe',emoji:'🌙',image:'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=900&q=80',description:'A gentle collection of bath salts, a candle and tea for an unhurried evening.',material:'Natural bath and self-care essentials.',includes:'Bath salts, candle, herbal tea and eye pillow.',packaging:'Reusable lidded box.',stock:11,collections:['Gift Hampers','Spiritual'],occasions:['Birthday','Anniversary','Appreciation & Thank You','Just Because'],recipients:['Partner','Parents','Friends','Family','Someone special'],styles:['Spiritual & Mindful','Gift Hampers & Collections'],tags:['wellness','self care','relaxing','spa']},
   ];
+  const rangeCatalog = {
+    Essential: {
+      prices: [299, 349, 399, 449, 499],
+      names: ['Mini Herb Garden', 'Hand-poured Soap Duo', 'Pocket Gratitude Cards', 'Linen Tea Towel Set', 'Desk Calm Kit', 'Hand-painted Trinket Dish', 'Cork Travel Journal', 'Terracotta Planter', 'Tea Infuser Gift Set', 'Scented Sachet Trio', 'Bamboo Serving Spoon Set', 'Cotton Eye Mask', 'Pocket Notebook Trio', 'Botanical Bookmark Set', 'Ceramic Ring Dish', 'Mini Chocolate Selection', 'Recycled Paper Calendar', 'Wooden Coaster Set', 'Handmade Key Tray', 'Relaxing Tea Sampler', 'Brass Bookmark', 'Cotton Pouch Set', 'Mindful Affirmation Cards', 'Bamboo Phone Stand', 'Handwoven Pot Holder', 'Mini Photo Frame', 'Lavender Drawer Sachets', 'Reusable Travel Cutlery', 'Artisan Spice Blend Set', 'Simple Celebration Box']
+    },
+    Signature: {
+      prices: [799, 899, 999, 1199, 1499, 1699],
+      names: ['Botanical Tea Chest', 'Handloom Cushion Cover', 'Ceramic Breakfast Set', 'Artisan Chocolate Box', 'Wellness Journal Set', 'Marble Serving Board', 'Sandalwood Ritual Kit', 'Hand-painted Vase', 'Cotton Throw', 'Gourmet Snack Box', 'Brass Candle Stand', 'Travel Coffee Set', 'Silk Eye Mask Set', 'Heritage Spice Box', 'Terracotta Table Lamp', 'Floral Bath Ritual', 'Handcrafted Photo Album', 'Linen Table Runner', 'Seasonal Tea Hamper', 'Mindful Desk Collection', 'Artisan Honey Trio', 'Handwoven Scarf', 'Ceramic Tea Light Set', 'Small-batch Coffee Hamper', 'Wooden Memory Box', 'Aromatic Home Set', 'Festive Mithai Box', 'Handmade Serving Tray', 'Reader’s Comfort Set', 'Celebration Gift Hamper']
+    },
+    Luxe: {
+      prices: [2299, 2499, 2799, 2999, 3299, 3999],
+      names: ['Luxury Tea Ceremony Set', 'Handwoven Silk Throw', 'Premium Wellness Retreat Box', 'Leather Desk Collection', 'Gourmet Celebration Hamper', 'Brass Heritage Urli', 'Artisan Dinnerware Set', 'Executive Travel Case', 'Cashmere Blend Stole', 'Curated Festival Hamper', 'Hand-painted Ceramic Centrepiece', 'Premium Coffee Discovery Box', 'Sandalwood Meditation Chest', 'Luxury Bath Ritual Box', 'Handcrafted Keepsake Trunk', 'Fine Chocolate Tasting Box', 'Heritage Craft Collection', 'Linen Bedroom Ritual Set', 'Signature Housewarming Hamper', 'Personalised Leather Folio', 'Premium Tea and Treats Hamper', 'Artisan Silver-plated Diya Set', 'Weekend Escape Gift Box', 'Luxury Scented Candle Set', 'Curated Client Appreciation Box', 'Handloom Festive Collection', 'Mindful Living Gift Trunk', 'Gourmet Pantry Hamper', 'Premium Anniversary Collection', 'The Grand Celebration Hamper']
+    }
+  };
+  const generatedProducts = Object.entries(rangeCatalog).flatMap(([range, catalog]) => catalog.names.map((name, index) => {
+    const hamper = index >= 20;
+    const id = `${range.toLowerCase()}-curio-${String(index + 1).padStart(2, '0')}`;
+    const price = catalog.prices[index % catalog.prices.length];
+    return {
+      id,
+      name,
+      price,
+      range,
+      emoji: hamper ? '🎁' : ['🌿', '🫖', '✨', '🧺', '🪷'][index % 5],
+      image: [
+        'https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&w=700&q=70',
+        'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&w=700&q=70',
+        'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=700&q=70',
+        'https://images.unsplash.com/photo-1513883049090-d0b7439799bf?auto=format&fit=crop&w=700&q=70'
+      ][index % 4],
+      description: `${name} thoughtfully chosen for meaningful moments and easy, beautiful gifting.`,
+      material: 'Thoughtfully sourced materials with a handcrafted finish.',
+      includes: hamper ? 'A curated gift hamper with four considered pieces.' : 'One beautifully presented gift with a care card.',
+      packaging: range === 'Luxe' ? 'Premium keepsake gift box.' : 'Ready-to-gift recyclable box.',
+      stock: 8 + (index % 18),
+      collections: hamper ? ['Gift Hampers', 'Unique Finds'] : [index % 2 ? 'Unique Finds' : 'Art & Décor', index % 3 ? 'Heritage' : 'Spiritual'],
+      occasions: ['Birthday', 'Anniversary', 'Housewarming', 'Appreciation & Thank You', ...(index % 2 ? ['Just Because'] : ['Festival'])],
+      recipients: ['Partner', 'Parents', 'Family', 'Friends', ...(index % 2 ? ['Colleagues'] : ['Someone special'])],
+      styles: [hamper ? 'Gift Hampers & Collections' : 'Unique & Unusual', index % 2 ? 'Personal & Meaningful' : 'Decorative & Artistic'],
+      tags: [name.toLowerCase(), range.toLowerCase(), ...(hamper ? ['hamper', 'gift box'] : [])]
+    };
+  }));
+  products.push(...generatedProducts);
   const money = n => new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(n);
   const read = (key, fallback) => { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } };
   const save = (key, value) => localStorage.setItem(key, JSON.stringify(value));
@@ -30,7 +73,7 @@ const TGC = (() => {
     setCart(cart); updateCartBadge();
   };
   const updateCartBadge = () => document.querySelectorAll('[data-cart-count]').forEach(el => { el.textContent = getCart().reduce((sum, item) => sum + item.qty, 0); });
-  const productArt = (p, large = false) => `<div class="product-art${large ? ' product-art-large' : ''}"><img src="${p.image}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="product-emoji">${p.emoji}</span></div>`;
+  const productArt = (p, large = false) => `<div class="product-art${large ? ' product-art-large' : ''}"><img src="${p.image}" alt="${escapeHtml(p.name)}" loading="${large ? 'eager' : 'lazy'}" decoding="async" width="700" height="${large ? '300' : '145'}" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><span class="product-emoji">${p.emoji}</span></div>`;
   const card = p => `<article class="card">${productArt(p)}<div class="small">${p.range} · ${p.collections.join(' / ')}</div><h3>${p.name}</h3><p class="price">${money(p.price)}</p><p class="small">${p.description}</p><div class="actions"><a class="button" href="product.html?id=${encodeURIComponent(p.id)}">View gift</a><button class="secondary" data-wish="${p.id}">${getWishlist().includes(p.id) ? 'Saved' : '♡ Save'}</button></div></article>`;
   const renderCards = (target, list) => { const element = document.querySelector(target); if (element) element.innerHTML = list.map(card).join('') || '<p>No gifts match those details. Try a broader search.</p>'; };
   const bindWishlist = () => document.addEventListener('click', event => { const button = event.target.closest('[data-wish]'); if (!button) return; const id = button.dataset.wish; let wishlist = getWishlist(); wishlist = wishlist.includes(id) ? wishlist.filter(item => item !== id) : [...wishlist, id]; save('tgc-wishlist', wishlist); button.textContent = wishlist.includes(id) ? 'Saved' : '♡ Save'; });
@@ -39,7 +82,10 @@ const TGC = (() => {
     const search = document.querySelector('#search'), budget = document.querySelector('#budget'), occasion = document.querySelector('#occasion'), collection = document.querySelector('#collection');
     const requestedCollection = new URLSearchParams(location.search).get('collection');
     if (requestedCollection && [...collection.options].some(option => option.value === requestedCollection)) collection.value = requestedCollection;
-    const draw = () => { const query = search.value.toLowerCase().trim(); const matches = products.filter(p => (!query || [p.name,p.description,...p.tags].join(' ').toLowerCase().includes(query)) && (budget.value === 'All' || p.range === budget.value) && (occasion.value === 'All' || p.occasions.includes(occasion.value)) && (collection.value === 'All' || p.collections.includes(collection.value))); renderCards('#shopProducts', matches); document.querySelector('#resultCount').textContent = `${matches.length} gifts`; };
+    const loadMore = document.createElement('button'); loadMore.type = 'button'; loadMore.className = 'secondary load-more'; loadMore.textContent = 'Load more gifts'; list.after(loadMore);
+    let matches = [], visible = 12;
+    const draw = () => { const query = search.value.toLowerCase().trim(); matches = products.filter(p => (!query || [p.name,p.description,...p.tags].join(' ').toLowerCase().includes(query)) && (budget.value === 'All' || p.range === budget.value) && (occasion.value === 'All' || p.occasions.includes(occasion.value)) && (collection.value === 'All' || p.collections.includes(collection.value))); visible = 12; renderCards('#shopProducts', matches.slice(0, visible)); loadMore.classList.toggle('hidden', visible >= matches.length); document.querySelector('#resultCount').textContent = `${matches.length} gifts`; };
+    loadMore.addEventListener('click', () => { visible += 12; renderCards('#shopProducts', matches.slice(0, visible)); loadMore.classList.toggle('hidden', visible >= matches.length); });
     [search,budget,occasion,collection].forEach(input => input.addEventListener('input', draw)); draw();
   };
   const initProduct = () => {
